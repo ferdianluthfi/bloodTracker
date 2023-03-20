@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "920694017330",
+    "project_id": "sugar-blood-tracker",
+    "storage_bucket": "sugar-blood-tracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920694017330:android:7a370bbb74b981443d9b2b",
+        "android_client_info": {
+          "package_name": "com.example.new_blood_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920694017330-v5to108r1qkah3e53k7l0kv62nsoj8s4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc1saRWqIOc9Cuv4aoZexmCLUXbdBZHnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920694017330-v5to108r1qkah3e53k7l0kv62nsoj8s4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "920694017330-sffgncpjq309g85rcrpg0kjgebsj1c4b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.secondApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
