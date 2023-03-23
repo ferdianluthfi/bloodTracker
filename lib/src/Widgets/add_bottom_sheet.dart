@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'new_blood_record.dart';
 
 class AddButton extends StatefulWidget {
   final BuildContext contextt;

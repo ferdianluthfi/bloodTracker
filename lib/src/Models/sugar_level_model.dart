@@ -19,11 +19,13 @@ class ItemModel {
 
 
 class SugarBloodScore {
+  String id;
   int score;
   DateTime checkingTime;
   String type;
   
   SugarBloodScore(results){
+    id = results.id;
     score = results["score"];
     checkingTime = results["checkTime"].toDate();
     type = results["type"];

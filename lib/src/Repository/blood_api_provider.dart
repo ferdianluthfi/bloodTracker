@@ -15,7 +15,6 @@ class BloodApiProvider {
     DocumentReference<Object> newTrack;
     await ref
         .add(data).then((value) => newTrack = value);
-
     return newTrack;
         
   }

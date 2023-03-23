@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:new_blood_tracker/src/Repository/repository.dart';
+import 'package:new_blood_tracker/src/Widgets/loading_screen.dart';
+import 'package:new_blood_tracker/src/Widgets/record_list.dart';
 import 'Models/sugar_level_model.dart';
 import 'Widgets/add_bottom_sheet.dart';
-import 'Widgets/new_blood_record.dart';
-
+import 'Widgets/new_blood_record_form.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
     await repo.fetchAllScores().then((value) => scores = value);
   }
 
-  void _addNewTransaction(Map<String,dynamic> temp) {
+  void _addNewTransaction(Map<String, dynamic> temp) {
     repo.addNewTrack(temp);
     setState(() {
       _refreshData();
@@ -57,89 +57,45 @@ class _HomeState extends State<Home> {
 
   void _showNewBloodRecordField(BuildContext ctx) {
     showModalBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return AddRecordBootomSheet(_addNewTransaction);
-      },
-    );
+        context: ctx,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(25.0),
+          ),
+        ),
+        builder: (context) {
+          return AddRecordBootomSheet(_addNewTransaction);
+        });
   }
 
   Future<void> _refreshData() async {
-  // Fetch new data from the server
-  final newData = await repo.fetchAllScores().then((value) => scores = value);
+    // Fetch new data from the server
+    final newData = await repo.fetchAllScores().then((value) => scores = value);
 
-  // Update the UI
-  setState(() {
-    scores = newData;
-  });
-}
+    // Update the UI
+    setState(() {
+      scores = newData;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Blood Sugar Tracker"),
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: _refreshData,
-                    child: ListView.builder(
-                      itemBuilder: ((context, index) {
-                        return Card(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 15),
-                                child: Text(scores[index].score.toString()),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 15),
-                                child: Text(scores[index].type),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 15),
-                                child: Text(DateFormat('MMM dd, yyy HH:mm')
-                                    .format(scores[index].checkingTime)),
-                              )
-                            ],
-                          ),
-                        );
-                      }),
-                      itemCount: scores.length,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            floatingActionButton: AddButton(context, _showNewBloodRecordField),
-          );
-        } else {
-          return Scaffold(
-              appBar: AppBar(
-                title: const Text("Blood Sugar Tracker"),
-              ),
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text("Loading ...",),
-                    SizedBox(height: 10,),
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              ));
-        }
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Blood Sugar Tracker"),
+      ),
+      body: FutureBuilder(
+        future: _initFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return RecordList(_refreshData, scores);
+          } else {
+            return const LoadingAnimation();
+          }
+        },
+      ),
+      floatingActionButton: AddButton(context, _showNewBloodRecordField),
     );
   }
 }
