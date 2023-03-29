@@ -18,6 +18,7 @@ void sumbitData(){
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: Theme.of(context).primaryColor,
       onPressed: () => sumbitData(),
       child: const Icon(Icons.add),
     );

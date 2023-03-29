@@ -22,18 +22,22 @@ class SugarBloodScore {
   String id;
   int score;
   DateTime checkingTime;
+  int unitInsulin;
   String type;
   
   SugarBloodScore(results){
     id = results.id;
     score = results["score"];
     checkingTime = results["checkTime"].toDate();
+    unitInsulin = results["unitInsulin"];
     type = results["type"];
     
   }
 
 }
 
+
+//No need check type anymore
 enum CheckType { SEBELUM_MAKAN, SESUDAH_MAKAN, SEBELUM_TIDUR, BANGUN_TIDUR }
 
 extension CheckTypeExtension on CheckType {

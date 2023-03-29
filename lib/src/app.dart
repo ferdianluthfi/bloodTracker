@@ -18,7 +18,21 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: const MaterialColor(
+          0xFFF96746,
+          <int, Color>{
+            50: Color.fromRGBO(249, 103, 70, .1),
+            100: Color.fromRGBO(249, 103, 70, .2),
+            200: Color.fromRGBO(249, 103, 70, .3),
+            300: Color.fromRGBO(249, 103, 70, .4),
+            400: Color.fromRGBO(249, 103, 70, .5),
+            500: Color.fromRGBO(249, 103, 70, .6),
+            600: Color.fromRGBO(249, 103, 70, .7),
+            700: Color.fromRGBO(249, 103, 70, .8),
+            800: Color.fromRGBO(249, 103, 70, .9),
+            900: Color.fromRGBO(249, 103, 70, 1),
+          },
+        ),
       ),
       home: const Home(),
       debugShowCheckedModeBanner: false,
@@ -34,9 +48,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<SugarBloodScore> scores;
+  Map<DateTime, List<SugarBloodScore>> scores;
   Future<void> _initFuture;
   Repository repo = Repository();
+  var groups;
 
   @override
   void initState() {
@@ -45,7 +60,9 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _initAsync() async {
-    await repo.fetchAllScores().then((value) => scores = value);
+    await repo.fetchAllScores().then((value) {
+      scores = value;
+    });
   }
 
   void _addNewTransaction(Map<String, dynamic> temp) {

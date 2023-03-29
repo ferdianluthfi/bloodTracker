@@ -4,8 +4,9 @@ import '../Models/sugar_level_model.dart';
 
 class RecordList extends StatefulWidget {
   final VoidCallback _updateFunction;
-  final List<SugarBloodScore> _scores;
-  const RecordList(this._updateFunction,this._scores, {Key key}) : super(key: key);
+  final Map<DateTime, List<SugarBloodScore>> _scores;
+  const RecordList(this._updateFunction, this._scores, {Key key})
+      : super(key: key);
 
   @override
   State<RecordList> createState() => _RecordListState();
@@ -14,38 +15,121 @@ class RecordList extends StatefulWidget {
 class _RecordListState extends State<RecordList> {
   @override
   Widget build(BuildContext context) {
+    print(widget._scores[widget._scores.keys.elementAt(1)].length);
     return Column(
       children: [
         Expanded(
           child: RefreshIndicator(
             onRefresh: widget._updateFunction,
             child: ListView.builder(
+              itemCount: widget._scores.length,
               itemBuilder: ((context, index) {
-                return Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: Text(widget._scores[index].score.toString()),
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 5),
+                      width: MediaQuery.of(context).size.width,
+                      child: Text(
+                        DateFormat('MMM dd, yyy')
+                            .format(widget._scores.keys.elementAt(index)),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: Text(widget._scores[index].type),
+                    ),
+                    Card(
+                      margin: const EdgeInsets.fromLTRB(20, 5, 20, 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: Text(DateFormat('MMM dd, yyy HH:mm')
-                            .format(widget._scores[index].checkingTime)),
+                      elevation: 3,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(163, 163, 163, 1), indent: 25, endIndent: 25,),
+                        itemCount: widget
+                            ._scores[widget._scores.keys.elementAt(index)]
+                            .length,
+                        itemBuilder: ((context, idx) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 15),
+                                  child: Text(
+                                    widget._scores[widget._scores.keys
+                                            .elementAt(index)]
+                                        .elementAt(idx)
+                                        .score
+                                        .toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 15),
+                                  child: Text(DateFormat('HH:mm').format(widget
+                                      ._scores[
+                                          widget._scores.keys.elementAt(index)]
+                                      .elementAt(idx)
+                                      .checkingTime)),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 15),
+                                  child: widget._scores[widget._scores.keys
+                                                      .elementAt(index)]
+                                                  .elementAt(idx)
+                                                  .type ==
+                                              null ||
+                                          widget._scores[widget._scores.keys
+                                                      .elementAt(index)]
+                                                  .elementAt(idx)
+                                                  .type ==
+                                              ""
+                                      ? const Text("")
+                                      : Text(
+                                          widget._scores[widget._scores.keys
+                                                  .elementAt(index)]
+                                              .elementAt(idx)
+                                              .type,
+                                          textAlign: TextAlign.end,
+                                        ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 15, 25, 15),
+                                  child: widget._scores[widget._scores.keys
+                                                      .elementAt(index)]
+                                                  .elementAt(idx)
+                                                  .type ==
+                                              null ||
+                                          widget._scores[widget._scores.keys
+                                                      .elementAt(index)]
+                                                  .elementAt(idx)
+                                                  .type ==
+                                              ""
+                                      ? const Text("")
+                                      : Text(
+                                          "${widget._scores[widget._scores.keys.elementAt(index)].elementAt(idx).unitInsulin} Unit",
+                                          textAlign: TextAlign.end,
+                                        ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               }),
-              itemCount: widget._scores.length,
             ),
           ),
         ),

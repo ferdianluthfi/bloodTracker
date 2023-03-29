@@ -7,7 +7,7 @@ class BloodApiProvider {
       .collection('histories/zH9z9CLJDX7C2GZRKeZ9/sugar_blood_level');
 
   Future<ItemModel> fetchScoreList() async {
-    QuerySnapshot eventsQuery = await ref.orderBy('checkTime', descending: true).get();
+    QuerySnapshot eventsQuery = await ref.orderBy('checkTime', descending: false).get();
     return ItemModel.fromJson(eventsQuery.docs);
   }
 
