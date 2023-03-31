@@ -51,7 +51,6 @@ class _HomeState extends State<Home> {
   Map<DateTime, List<SugarBloodScore>> scores;
   Future<void> _initFuture;
   Repository repo = Repository();
-  var groups;
 
   @override
   void initState() {

@@ -15,13 +15,18 @@ class RecordList extends StatefulWidget {
 class _RecordListState extends State<RecordList> {
   @override
   Widget build(BuildContext context) {
-    print(widget._scores[widget._scores.keys.elementAt(1)].length);
     return Column(
       children: [
         Expanded(
           child: RefreshIndicator(
             onRefresh: widget._updateFunction,
-            child: ListView.builder(
+            child: ListView.separated(
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(
+                color: Color.fromRGBO(163, 163, 163, 1),
+                indent: 20,
+                endIndent: 20,
+              ),
               itemCount: widget._scores.length,
               itemBuilder: ((context, index) {
                 return Column(
@@ -44,7 +49,12 @@ class _RecordListState extends State<RecordList> {
                       child: ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        separatorBuilder: (BuildContext context, int index) => const Divider(color: Color.fromRGBO(163, 163, 163, 1), indent: 25, endIndent: 25,),
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(
+                          color: Color.fromRGBO(163, 163, 163, 1),
+                          indent: 25,
+                          endIndent: 25,
+                        ),
                         itemCount: widget
                             ._scores[widget._scores.keys.elementAt(index)]
                             .length,
@@ -54,7 +64,7 @@ class _RecordListState extends State<RecordList> {
                               Expanded(
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 15),
+                                      horizontal: 25, vertical: 10),
                                   child: Text(
                                     widget._scores[widget._scores.keys
                                             .elementAt(index)]
@@ -69,7 +79,7 @@ class _RecordListState extends State<RecordList> {
                               Expanded(
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 15),
+                                      horizontal: 25, vertical: 10),
                                   child: Text(DateFormat('HH:mm').format(widget
                                       ._scores[
                                           widget._scores.keys.elementAt(index)]
@@ -80,7 +90,7 @@ class _RecordListState extends State<RecordList> {
                               Expanded(
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 15),
+                                      horizontal: 25, vertical: 10),
                                   child: widget._scores[widget._scores.keys
                                                       .elementAt(index)]
                                                   .elementAt(idx)
@@ -104,7 +114,7 @@ class _RecordListState extends State<RecordList> {
                               Expanded(
                                 child: Container(
                                   padding:
-                                      const EdgeInsets.fromLTRB(15, 15, 25, 15),
+                                      const EdgeInsets.fromLTRB(15, 15, 25, 10),
                                   child: widget._scores[widget._scores.keys
                                                       .elementAt(index)]
                                                   .elementAt(idx)

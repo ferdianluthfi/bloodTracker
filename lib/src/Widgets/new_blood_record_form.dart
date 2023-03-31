@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import '../Models/sugar_level_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddRecordBootomSheet extends StatefulWidget {
@@ -15,7 +14,8 @@ class AddRecordBootomSheet extends StatefulWidget {
 
 class _AddRecordBootomSheetState extends State<AddRecordBootomSheet> {
   final bloodSugarController = TextEditingController();
-  CheckType myCheckType = CheckType.BANGUN_TIDUR;
+  final insulinTypeController = TextEditingController();
+  final insulinUnitController = TextEditingController();
   var _dateTime = DateTime.now();
   bool picked = false;
 
@@ -23,7 +23,8 @@ class _AddRecordBootomSheetState extends State<AddRecordBootomSheet> {
     Map<String, dynamic> temp = <String, dynamic>{
       "score": int.parse(bloodSugarController.text),
       "checkTime": Timestamp.fromDate(_dateTime),
-      "type": myCheckType.name,
+      "type": insulinTypeController.text,
+      "unitInsulin": int.parse(insulinUnitController.text),
     };
 
     widget.saveTrack(temp);
@@ -36,7 +37,7 @@ class _AddRecordBootomSheetState extends State<AddRecordBootomSheet> {
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.36,
+        height: MediaQuery.of(context).size.height * 0.4,
         child: Container(
           padding: const EdgeInsets.fromLTRB(15, 15, 15, 25),
           child: Column(
@@ -68,6 +69,10 @@ class _AddRecordBootomSheetState extends State<AddRecordBootomSheet> {
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                          child: Text("Unit"),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: Text("Time"),
                         )
                       ],
@@ -75,37 +80,63 @@ class _AddRecordBootomSheetState extends State<AddRecordBootomSheet> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.44,
-                          height: MediaQuery.of(context).size.width * 0.08,
-                          child: TextFormField(
-                            controller: bloodSugarController,
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.44,
+                            height: MediaQuery.of(context).size.width * 0.08,
+                            child: TextFormField(
+                              controller: bloodSugarController,
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        DropdownButton<CheckType>(
-                            // isExpanded: true,
-                            value: myCheckType,
-                            items: CheckType.values.map((CheckType checkType) {
-                              return DropdownMenuItem<CheckType>(
-                                  alignment: AlignmentDirectional.centerStart,
-                                  value: checkType,
-                                  child: Text(checkType.name));
-                            }).toList(),
-                            onChanged: (CheckType newValue) {
-                              setState(() {
-                                myCheckType = newValue;
-                              });
-                            }),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.44,
+                            height: MediaQuery.of(context).size.width * 0.08,
+                            child: TextFormField(
+                              controller: insulinTypeController,
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.44,
+                            height: MediaQuery.of(context).size.width * 0.08,
+                            child: TextFormField(
+                              controller: insulinUnitController,
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         TextButton(
                             onPressed: () {
                               DatePicker.showDateTimePicker(context,
