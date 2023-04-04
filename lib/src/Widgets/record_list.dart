@@ -47,6 +47,7 @@ class _RecordListState extends State<RecordList> {
                       ),
                       elevation: 3,
                       child: ListView.separated(
+                        reverse: true,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         separatorBuilder: (BuildContext context, int index) =>
@@ -59,80 +60,90 @@ class _RecordListState extends State<RecordList> {
                             ._scores[widget._scores.keys.elementAt(index)]
                             .length,
                         itemBuilder: ((context, idx) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 10),
-                                  child: Text(
-                                    widget._scores[widget._scores.keys
-                                            .elementAt(index)]
-                                        .elementAt(idx)
-                                        .score
-                                        .toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
+                          final item = widget
+                              ._scores[widget._scores.keys.elementAt(index)];
+
+                          final record = widget
+                              ._scores[widget._scores.keys.elementAt(index)]
+                              .elementAt(idx);
+
+                          return Dismissible(
+                            direction: DismissDirection.endToStart,
+                            // Show a red background as the item is swiped away
+                            background: Card(
+                              color: Colors.red,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              elevation: 0,
+                            ),
+                            key: Key(item.elementAt(idx).id),
+                            onDismissed: (direction) {
+                              // Remove the item from the data source.
+                              setState(() {
+                                item.removeAt(idx);
+                              });
+
+                              // Show a snackbar. This snackbar could also contain "Undo" actions.
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      "${DateFormat('MMM dd, yyy HH:mm').format(record.checkingTime)} dismissed")));
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              elevation: 0,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25, vertical: 10),
+                                      child: Text(
+                                        record.score.toString(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25, vertical: 10),
+                                      child: Text(DateFormat('HH:mm')
+                                          .format(record.checkingTime)),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25, vertical: 10),
+                                      child: record.type == null ||
+                                              record.type == ""
+                                          ? const Text("")
+                                          : Text(
+                                              record.type,
+                                              textAlign: TextAlign.end,
+                                            ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 15, 25, 10),
+                                      child: record.type == null ||
+                                              record.type == ""
+                                          ? const Text("")
+                                          : Text(
+                                              "${record.unitInsulin} Unit",
+                                              textAlign: TextAlign.end,
+                                            ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 10),
-                                  child: Text(DateFormat('HH:mm').format(widget
-                                      ._scores[
-                                          widget._scores.keys.elementAt(index)]
-                                      .elementAt(idx)
-                                      .checkingTime)),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 10),
-                                  child: widget._scores[widget._scores.keys
-                                                      .elementAt(index)]
-                                                  .elementAt(idx)
-                                                  .type ==
-                                              null ||
-                                          widget._scores[widget._scores.keys
-                                                      .elementAt(index)]
-                                                  .elementAt(idx)
-                                                  .type ==
-                                              ""
-                                      ? const Text("")
-                                      : Text(
-                                          widget._scores[widget._scores.keys
-                                                  .elementAt(index)]
-                                              .elementAt(idx)
-                                              .type,
-                                          textAlign: TextAlign.end,
-                                        ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(15, 15, 25, 10),
-                                  child: widget._scores[widget._scores.keys
-                                                      .elementAt(index)]
-                                                  .elementAt(idx)
-                                                  .type ==
-                                              null ||
-                                          widget._scores[widget._scores.keys
-                                                      .elementAt(index)]
-                                                  .elementAt(idx)
-                                                  .type ==
-                                              ""
-                                      ? const Text("")
-                                      : Text(
-                                          "${widget._scores[widget._scores.keys.elementAt(index)].elementAt(idx).unitInsulin} Unit",
-                                          textAlign: TextAlign.end,
-                                        ),
-                                ),
-                              ),
-                            ],
+                            ),
                           );
                         }),
                       ),

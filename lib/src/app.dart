@@ -33,6 +33,7 @@ class _MyAppState extends State<MyApp> {
             900: Color.fromRGBO(249, 103, 70, 1),
           },
         ),
+        // textTheme: TextTheme(bodyText1: TextStyle(background: font)),
       ),
       home: const Home(),
       debugShowCheckedModeBanner: false,
@@ -99,7 +100,13 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Blood Sugar Tracker"),
+        leading: Container(
+          margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          child: Image.asset(
+            'assets/AppBarLogo.png',
+          ),
+        ),
+        leadingWidth: 200,
       ),
       body: FutureBuilder(
         future: _initFuture,
