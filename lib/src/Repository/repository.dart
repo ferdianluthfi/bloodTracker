@@ -24,4 +24,8 @@ class Repository {
     }
     return "Berhasil menambahkan item!";
   }
+
+  Future<String> removeTrack(id) async {
+    return await _bloodApiProvider.deleteTrack(id);
+  }
 }

@@ -18,4 +18,14 @@ class BloodApiProvider {
     return newTrack;
         
   }
+
+  Future<String> deleteTrack(id) async{
+    String result;
+    await ref.doc(id).delete().then(
+      (_) => result = "Document deleted",
+      onError: (e) => result = "Error updating document $e",
+    );
+
+    return result;
+  }
 }

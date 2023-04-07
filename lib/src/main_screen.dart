@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:new_blood_tracker/src/Repository/repository.dart';
 import 'package:new_blood_tracker/src/Widgets/loading_screen.dart';
 import 'package:new_blood_tracker/src/Widgets/record_list.dart';
+import 'package:new_blood_tracker/src/profile_screen.dart';
 import 'Models/sugar_level_model.dart';
 import 'Widgets/add_bottom_sheet.dart';
 import 'Widgets/new_blood_record_form.dart';
+import './profile_screen.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -107,6 +109,52 @@ class _HomeState extends State<Home> {
           ),
         ),
         leadingWidth: 200,
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              //TODO: Create getter for the user's name
+              child: const Text(
+                "Hello, Luthfi Ferdian!",
+                style: TextStyle(
+                    fontFamily: 'Mohave',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Colors.white),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_circle),
+              title: const Text('Profile'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Navigate to second screen when tapped
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+                // Then close the drawer
+                // Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline_rounded),
+              title: const Text('About Us'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
       body: FutureBuilder(
         future: _initFuture,

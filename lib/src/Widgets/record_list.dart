@@ -82,6 +82,7 @@ class _RecordListState extends State<RecordList> {
                               // Remove the item from the data source.
                               setState(() {
                                 item.removeAt(idx);
+                                //To Do: Learn how to user provider to pass data in the firebase store across the app
                               });
 
                               // Show a snackbar. This snackbar could also contain "Undo" actions.
