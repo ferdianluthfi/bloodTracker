@@ -1,12 +1,80 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'src/main_screen.dart';
+import 'package:new_blood_tracker/src/Models/sugar_level_model.dart';
+import 'package:provider/provider.dart';
+
+import 'firebase_options.dart';
+import 'src/Services/auth_service.dart';
+import 'src/Services/db_service.dart';
+import 'src/screens/loading_screen.dart';
+import 'src/screens/login_screen.dart';
+import 'src/screens/main_screen.dart';
+import 'src/screens/signup_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MainScreen());
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        // AUTH Provider
+        Provider<FirebaseAuthMethods>(
+          create: (context) => FirebaseAuthMethods(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<FirebaseAuthMethods>().authState,
+          initialData: null,
+        ),
+
+        // Records Provider
+        Provider<FirestoreMethods>(
+          create: (context) => FirestoreMethods(FirebaseFirestore.instance),
+        ),
+
+        StreamProvider<Map<DateTime, List<SugarBloodScore>>?>(
+          create: (context) =>
+              context.read<FirestoreMethods>().streamListRecords(),
+          initialData: null,
+        ),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: const MaterialColor(
+            0xFFF96746,
+            <int, Color>{
+              50: Color.fromRGBO(249, 103, 70, .1),
+              100: Color.fromRGBO(249, 103, 70, .2),
+              200: Color.fromRGBO(249, 103, 70, .3),
+              300: Color.fromRGBO(249, 103, 70, .4),
+              400: Color.fromRGBO(249, 103, 70, .5),
+              500: Color.fromRGBO(249, 103, 70, .6),
+              600: Color.fromRGBO(249, 103, 70, .7),
+              700: Color.fromRGBO(249, 103, 70, .8),
+              800: Color.fromRGBO(249, 103, 70, .9),
+              900: Color.fromRGBO(249, 103, 70, 1),
+            },
+          ),
+          // textTheme: TextTheme(bodyText1: TextStyle(background: font)),
+        ),
+        debugShowCheckedModeBanner: false,
+        routes: {
+          '/': (context) => Home(),
+          '/signup': (context) => const EmailPasswordSignup(),
+          '/login': (context) => LoginPage(),
+          '/loading': (context) => const LoadingPage(),
+        },
+      ),
+    );
+  }
 }

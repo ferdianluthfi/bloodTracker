@@ -1,22 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-
-class ItemModel {
-  List<SugarBloodScore> _results = [];
-
-  ItemModel.fromJson(List<QueryDocumentSnapshot<Map<String, dynamic>>> parsedJson) {
-    List<SugarBloodScore> temp = [];
-    for (int i = 0; i < parsedJson.length; i++) {
-      SugarBloodScore result = SugarBloodScore(parsedJson[i]);
-      temp.add(result);
-    }
-    _results = temp;
-  }
-
-  List<SugarBloodScore> get results => _results;
-
-}
-
 
 class SugarBloodScore {
   String id;
@@ -24,20 +6,23 @@ class SugarBloodScore {
   DateTime checkingTime;
   int unitInsulin;
   String type;
-  
-  SugarBloodScore(results){
-    id = results.id;
-    score = results["score"];
-    checkingTime = results["checkTime"].toDate();
-    unitInsulin = results["unitInsulin"];
-    type = results["type"];
-    
-  }
 
+  SugarBloodScore(
+      {required this.id,required this.score,required this.checkingTime, required this.type, required this.unitInsulin});
+
+  factory SugarBloodScore.fromMap(String id, Map data) {
+    return SugarBloodScore(
+      id: id,
+      score: data["score"],
+      checkingTime: data["checkTime"].toDate(),
+      unitInsulin: data["unitInsulin"],
+      type: data["type"],
+    );
+  }
 }
 
-
 //No need check type anymore
+// ignore: constant_identifier_names
 enum CheckType { SEBELUM_MAKAN, SESUDAH_MAKAN, SEBELUM_TIDUR, BANGUN_TIDUR }
 
 extension CheckTypeExtension on CheckType {

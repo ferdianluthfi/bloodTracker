@@ -3,9 +3,9 @@ import 'package:intl/intl.dart';
 import '../Models/sugar_level_model.dart';
 
 class RecordList extends StatefulWidget {
-  final VoidCallback _updateFunction;
+  final _updateFunction;
   final Map<DateTime, List<SugarBloodScore>> _scores;
-  const RecordList(this._updateFunction, this._scores, {Key key})
+  const RecordList(this._updateFunction, this._scores, {Key? key})
       : super(key: key);
 
   @override
@@ -57,14 +57,14 @@ class _RecordListState extends State<RecordList> {
                           endIndent: 25,
                         ),
                         itemCount: widget
-                            ._scores[widget._scores.keys.elementAt(index)]
+                            ._scores[widget._scores.keys.elementAt(index)]!
                             .length,
                         itemBuilder: ((context, idx) {
                           final item = widget
                               ._scores[widget._scores.keys.elementAt(index)];
 
                           final record = widget
-                              ._scores[widget._scores.keys.elementAt(index)]
+                              ._scores[widget._scores.keys.elementAt(index)]!
                               .elementAt(idx);
 
                           return Dismissible(
@@ -77,7 +77,7 @@ class _RecordListState extends State<RecordList> {
                               ),
                               elevation: 0,
                             ),
-                            key: Key(item.elementAt(idx).id),
+                            key: Key(item!.elementAt(idx).id),
                             onDismissed: (direction) {
                               // Remove the item from the data source.
                               setState(() {
@@ -120,8 +120,7 @@ class _RecordListState extends State<RecordList> {
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 25, vertical: 10),
-                                      child: record.type == null ||
-                                              record.type == ""
+                                      child: record.type == ""
                                           ? const Text("")
                                           : Text(
                                               record.type,
@@ -133,8 +132,7 @@ class _RecordListState extends State<RecordList> {
                                     child: Container(
                                       padding: const EdgeInsets.fromLTRB(
                                           15, 15, 25, 10),
-                                      child: record.type == null ||
-                                              record.type == ""
+                                      child: record.type == ""
                                           ? const Text("")
                                           : Text(
                                               "${record.unitInsulin} Unit",
