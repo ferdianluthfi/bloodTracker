@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_blood_tracker/main.dart';
 
-import '../Widgets/drawer.dart';
 import '../Widgets/loading_animation.dart';
 
 class LoadingPage extends StatelessWidget {
@@ -12,7 +11,7 @@ class LoadingPage extends StatelessWidget {
     return Scaffold(
         // TODO: Ganti AppBar pake widget custom
         appBar: AppBar(
-          leading: MyApp(),
+          leading: const MyApp(),
           leadingWidth: 200,
         ),
         body: const LoadingAnimation());

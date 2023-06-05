@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Widgets/snackbar.dart';
 
 class FirebaseAuthMethods {
-  final FirebaseAuth _auth;
-  FirebaseAuthMethods(this._auth);
+  final _auth = FirebaseAuth.instance;
 
   User get user => _auth.currentUser!;
 
@@ -77,8 +77,6 @@ class FirebaseAuthMethods {
       await _auth.signOut();
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
-    } catch (err) {
-      print("LAH INI ERRORNYA GUYS: $err");
     }
   }
 
@@ -91,3 +89,11 @@ class FirebaseAuthMethods {
     }
   }
 }
+
+final authenticationProvider = Provider<FirebaseAuthMethods>((ref) {
+  return FirebaseAuthMethods();
+});
+
+final authStateProvider = StreamProvider<User?>((ref) {
+  return ref.read(authenticationProvider).authState;
+});

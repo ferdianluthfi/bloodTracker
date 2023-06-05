@@ -1,18 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:new_blood_tracker/src/Widgets/app_bar.dart';
+import 'package:new_blood_tracker/src/Widgets/loading_animation.dart';
 import 'package:new_blood_tracker/src/Widgets/record_list.dart';
-import 'package:provider/provider.dart';
 
-import '../Models/sugar_level_model.dart';
+import '../Services/auth_provider.dart';
+import '../Services/db_provider.dart';
 import '../Widgets/button_show_record_form.dart';
 import '../Widgets/drawer.dart';
 import '../Widgets/no_entry.dart';
 import 'login_screen.dart';
 
-class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
-
+class Home extends ConsumerWidget {
+  const Home({Key? key}) : super(key: key);
 /*
   // TODO: bikin refresh data manual untuk refresh indicator(?)
   // Future<void> _refreshData() async {
@@ -28,35 +28,27 @@ class Home extends StatelessWidget {
 
   Future<void> temptFunction() async {}
   @override
-  Widget build(BuildContext context) {
-    Map<DateTime, List<SugarBloodScore>>? database;
-
-    return Consumer<User?>(
-      builder: (context, user, _) {
-        
-
-        if (user != null) {
-          database =
-              Provider.of<Map<DateTime, List<SugarBloodScore>>?>(context);
-          return Scaffold(
-            // TODO: Ganti AppBar pake widget custom
-            appBar: AppBar(
-              leading: MyAppBar(),
-              leadingWidth: 200,
-            ),
-            endDrawer: AppDrawer(),
-            body: database == null
-                ? const NoDataEntry()
-                : RecordList(temptFunction, database!),
-
-            floatingActionButton: const AddButton(),
-          );
-        }
-        print("ini db nya pas log out: $database");
-
-        /// other way there is no user logged.
-        return LoginPage();
-      },
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    var database = ref.watch(recordsListProvider).value;
+    final authState = ref.watch(authStateProvider);
+    return authState.when(
+        data: (data) {
+          if (data != null) {
+            return Scaffold(
+              appBar: AppBar(
+                leading: const MyAppBar(),
+                leadingWidth: 200,
+              ),
+              endDrawer: const AppDrawer(),
+              body: database == null || database == {}
+                  ? const NoDataEntry()
+                  : RecordList(temptFunction, database),
+              floatingActionButton: const AddButton(),
+            );
+          }
+          return LoginPage();
+        },
+        loading: () => const LoadingAnimation(),
+        error: (e, trace) => const LoadingAnimation());
   }
 }

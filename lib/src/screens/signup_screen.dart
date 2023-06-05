@@ -1,41 +1,33 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:new_blood_tracker/src/Services/auth_provider.dart';
 import 'package:new_blood_tracker/src/Widgets/app_bar.dart';
-import 'package:provider/provider.dart';
-import '../Services/auth_service.dart';
 
-class EmailPasswordSignup extends StatefulWidget {
-  static String routeName = '/signup-email-password';
-  const EmailPasswordSignup({Key? key}) : super(key: key);
+class EmailPasswordSignup extends ConsumerWidget {
+  EmailPasswordSignup({Key? key}) : super(key: key);
 
-  @override
-  _EmailPasswordSignupState createState() => _EmailPasswordSignupState();
-}
-
-class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController displaynameController = TextEditingController();
 
-  void signUpUser() {
-    Navigator.pushNamed(context, '/loading');
-    context.read<FirebaseAuthMethods>().signUpWithEmail(
-          email: emailController.text,
-          password: passwordController.text,
-          displayName: displaynameController.text,
-          context: context,
-        );
-  }
-
-  void navigateUserToHome() {
-    Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    void signUpUser() {
+      Navigator.pushNamed(context, '/loading');
+      ref.read(authenticationProvider).signUpWithEmail(
+            email: emailController.text,
+            password: passwordController.text,
+            displayName: displaynameController.text,
+            context: context,
+          );
+      Navigator.popAndPushNamed(context, '/');
+    }
+
     return Scaffold(
       appBar: AppBar(
-        leading: MyAppBar(),
+        leading: const MyAppBar(),
         leadingWidth: 200,
       ),
       body: Column(

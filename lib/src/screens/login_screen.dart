@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:new_blood_tracker/src/Services/auth_provider.dart';
 
-import '../Services/auth_service.dart';
+import '../Widgets/app_bar.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerWidget {
   LoginPage({Key? key}) : super(key: key);
   final auth = FirebaseAuth.instance;
 
@@ -13,15 +14,10 @@ class LoginPage extends StatelessWidget {
   
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: Container(
-          margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: Image.asset(
-            'assets/AppBarLogo.png',
-          ),
-        ),
+        leading: const MyAppBar(),
         leadingWidth: 200,
       ),
       body: Column(
@@ -83,7 +79,7 @@ class LoginPage extends StatelessWidget {
                   child: const Text('Login'),
                   onPressed: () {
                     Navigator.popAndPushNamed(context, '/loading');
-                    Provider.of<FirebaseAuthMethods>(context, listen: false)
+                    ref.read(authenticationProvider)
                         .loginWithEmail(
                             email: emailController.text,
                             password: passwordController.text,

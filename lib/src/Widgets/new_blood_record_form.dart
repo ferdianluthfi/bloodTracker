@@ -1,20 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
+import 'package:new_blood_tracker/src/Services/db_provider.dart';
 
-import '../Services/db_service.dart';
-
-class AddRecordBootomSheet extends StatefulWidget {
+class AddRecordBootomSheet extends ConsumerStatefulWidget {
   const AddRecordBootomSheet({Key? key}) : super(key: key);
 
   @override
-  State<AddRecordBootomSheet> createState() => _AddRecordBootomSheetState();
+  ConsumerState<AddRecordBootomSheet> createState() =>
+      _AddRecordBootomSheetState();
 }
 
-class _AddRecordBootomSheetState extends State<AddRecordBootomSheet> {
+class _AddRecordBootomSheetState extends ConsumerState<AddRecordBootomSheet> {
   final bloodSugarController = TextEditingController();
   final insulinTypeController = TextEditingController();
   final insulinUnitController = TextEditingController();
@@ -26,9 +26,9 @@ class _AddRecordBootomSheetState extends State<AddRecordBootomSheet> {
       "score": int.parse(bloodSugarController.text),
       "checkTime": Timestamp.fromDate(_dateTime),
       "type": insulinTypeController.text,
-      "unitInsulin": int.parse(insulinUnitController.text),
+      "unitInsulin": insulinUnitController.text.isNotEmpty ? int.parse(insulinUnitController.text): 0,
     };
-    context.read<FirestoreMethods>().addNewTrack(temp);
+    ref.read(databaseProvider).addNewTrack(temp);
     Navigator.of(context).pop();
   }
 

@@ -1,16 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 
-import '../Models/sugar_level_model.dart';
-import '../Services/auth_service.dart';
-import '../Services/db_service.dart';
+import '../Services/auth_provider.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends ConsumerWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final firebaseUser = context.watch<User?>();
     return Drawer(
       child: ListView(
@@ -56,10 +55,8 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Log Out'),
-            onTap: () {      
-              Provider.of<FirebaseAuthMethods>(context, listen: false)
-                  .signOut(context);
-              
+            onTap: () {
+              ref.read(authenticationProvider).signOut(context);
               Navigator.popAndPushNamed(context, '/login');
             },
           )
