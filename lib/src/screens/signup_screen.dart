@@ -118,6 +118,24 @@ class EmailPasswordSignup extends ConsumerWidget {
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
+          const SizedBox(height: 10),
+              Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text("Already have an account? "),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Login instead",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    )
+                  ],
+                ),
+              )
         ],
       ),
     );

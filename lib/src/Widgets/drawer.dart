@@ -10,7 +10,7 @@ class AppDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final firebaseUser = context.watch<User?>();
+    final firebaseUser = ref.watch(authStateProvider).value;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -41,7 +41,7 @@ class AppDrawer extends ConsumerWidget {
             leading: const Icon(Icons.account_circle),
             title: const Text('Profile'),
             onTap: () {
-              Navigator.pushNamed(context, '/login');
+              Navigator.pop(context);
             },
           ),
           ListTile(

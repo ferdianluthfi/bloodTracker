@@ -30,10 +30,6 @@ class FirebaseAuthMethods {
       await user?.updateDisplayName(displayName).then((_) {
         Navigator.pushReplacementNamed(context, '/');
       });
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(userCredential.user?.uid)
-          .set({});
     } on FirebaseAuthException catch (e) {
       // if you want to display your own custom error message
       if (e.code == 'weak-password') {

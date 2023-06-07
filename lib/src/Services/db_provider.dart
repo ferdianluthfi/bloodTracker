@@ -8,7 +8,7 @@ import '../Models/sugar_level_model.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  
+
   void addNewTrack(Map<String, dynamic> data) {
     _db
         .collection("users")
@@ -18,6 +18,14 @@ class FirestoreMethods {
   }
 
   //TODO:delete
+  void deleteTrack(String id) {
+    _db
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("sugar_histories")
+        .doc(id)
+        .delete();
+  }
 
   //TODO:update
 
