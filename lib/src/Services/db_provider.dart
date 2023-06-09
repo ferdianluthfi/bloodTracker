@@ -17,7 +17,6 @@ class FirestoreMethods {
         .add(data);
   }
 
-  //TODO:delete
   void deleteTrack(String id) {
     _db
         .collection("users")
