@@ -5,8 +5,22 @@ class NoDataEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Icon(Icons.not_interested_rounded,size: 24),
-    );
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'assets/empty-box.png',
+          width: 200,
+          height: 200,
+        ),
+        const Text(
+          "No Data",
+          style: TextStyle(
+            color: Color.fromRGBO(249, 103, 70, 1),
+          ),
+        )
+      ],
+    ));
   }
 }

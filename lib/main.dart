@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:new_blood_tracker/src/screens/profile_screen.dart';
 
 import 'firebase_options.dart';
 import 'src/screens/loading_screen.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => EmailPasswordSignup(),
         '/login': (context) => LoginPage(),
         '/loading': (context) => const LoadingPage(),
+        '/profile': (context) => const ProfilePage(),
       },
     );
   }

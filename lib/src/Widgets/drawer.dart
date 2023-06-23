@@ -41,17 +41,10 @@ class AppDrawer extends ConsumerWidget {
             leading: const Icon(Icons.account_circle),
             title: const Text('Profile'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.popAndPushNamed(context, '/profile');
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.info_outline_rounded),
-            title: const Text('About Us'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.53),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.6),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Log Out'),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../Models/sugar_level_model.dart';
 import '../Services/db_provider.dart';
+import 'no_entry.dart';
 
 class RecordList extends ConsumerStatefulWidget {
   final _updateFunction;
@@ -23,23 +24,7 @@ class _RecordListState extends ConsumerState<RecordList> {
           child: RefreshIndicator(
             onRefresh: widget._updateFunction,
             child: widget._scores.isEmpty
-                ? Center(
-                    child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/empty-box.png',
-                        width: 200,
-                        height: 200,
-                      ),
-                      const Text(
-                        "No Data",
-                        style: TextStyle(
-                          color: Color.fromRGBO(249, 103, 70, 1),
-                        ),
-                      )
-                    ],
-                  ))
+                ? const NoDataEntry()
                 : ListView.separated(
                     separatorBuilder: (BuildContext context, int index) =>
                         const Divider(

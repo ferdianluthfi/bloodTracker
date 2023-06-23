@@ -13,9 +13,12 @@ class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-      child: Image.asset(
-        'assets/AppBarLogo.png',
+      margin: const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+      child: SizedBox(
+        width: 143.3,
+        child: Image.asset(
+          'assets/AppBarLogo.png',
+        ),
       ),
     );
   }

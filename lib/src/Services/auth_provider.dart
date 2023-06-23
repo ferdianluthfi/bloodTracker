@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,10 +57,17 @@ class FirebaseAuthMethods {
     }
   }
 
-  // ANONYMOUS SIGN IN
-  Future<void> signInAnonymously(BuildContext context) async {
+  // EMAIL Update
+  Future<void> updateAccount({
+    required String email,
+    required String password,
+    required String displayName,
+    required BuildContext context,
+  }) async {
     try {
-      await _auth.signInAnonymously();
+      await _auth.currentUser!.updateEmail(email);
+      await _auth.currentUser!.updatePassword(password);
+      await _auth.currentUser!.updateDisplayName(displayName);
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
     }
