@@ -31,16 +31,20 @@ class _EditProfileFormState extends ConsumerState<EditProfileForm> {
   Widget build(BuildContext context) {
     void updateUser() {
       if (_formKey.currentState!.validate()) {
-        // ref.read(authenticationProvider).updateName(
-        //       displayName: displaynameController.text,
-        //       context: context,
-        //     );
-        // ref.read(authenticationProvider).updatePassword(
-        //       oldpassword: oldPasswordController.text,
-        //       password: passwordController.text,
-        //       context: context,
-        //     );
+        ref.read(authenticationProvider).updateName(
+              displayName: displaynameController.text,
+              context: context,
+            );
+        if (passwordController.text.isNotEmpty) {
+          ref.read(authenticationProvider).updatePassword(
+                oldpassword: oldPasswordController.text,
+                password: passwordController.text,
+                context: context,
+              );
+        }
+
         showSnackBar(context, "Profile berhasil diperbarui");
+        Navigator.pop(context);
       }
     }
 
@@ -72,7 +76,8 @@ class _EditProfileFormState extends ConsumerState<EditProfileForm> {
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: TextFormField(
               validator: (value) {
-                if (value == null || value.isEmpty) {
+                if (passwordController.text.isNotEmpty &&
+                    (value == null || value.isEmpty)) {
                   return 'Please enter your current password';
                 }
                 return null;
@@ -92,7 +97,8 @@ class _EditProfileFormState extends ConsumerState<EditProfileForm> {
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: TextFormField(
               validator: (value) {
-                if (value == null || value.isEmpty) {
+                if (oldPasswordController.text.isNotEmpty &&
+                    (value == null || value.isEmpty)) {
                   return 'Please enter your full new password';
                 }
                 return null;
