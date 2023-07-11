@@ -27,20 +27,6 @@ class ProfileDetail extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: TextFormField(
-            readOnly: true,
-            initialValue: email,
-            style: const TextStyle(
-              fontFamily: "Mohave",
-            ),
-            decoration: const InputDecoration(
-              labelText: 'Email',
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
       ],
     );
   }

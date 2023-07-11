@@ -57,20 +57,38 @@ class FirebaseAuthMethods {
     }
   }
 
-  // EMAIL Update
-  Future<void> updateAccount({
-    required String email,
+  // Password Update
+  Future<void> updatePassword({
     required String password,
+    required String oldpassword,
+    required BuildContext context,
+  }) async {
+    try {
+      AuthCredential credential = EmailAuthProvider.credential(email: _auth.currentUser!.email!, password: password);
+      await _auth.currentUser!.reauthenticateWithCredential(credential);
+      await _auth.currentUser!.updatePassword(password);
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message!);
+    }
+  }
+
+  // DisplayName Update
+  Future<void> updateName({
     required String displayName,
     required BuildContext context,
   }) async {
     try {
-      await _auth.currentUser!.updateEmail(email);
-      await _auth.currentUser!.updatePassword(password);
       await _auth.currentUser!.updateDisplayName(displayName);
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
     }
+  }
+
+  Future<void> reauthenticateUser(String email, String password) async {
+    User user = _auth.currentUser!;
+    AuthCredential credential =
+        EmailAuthProvider.credential(email: email, password: password);
+    await user.reauthenticateWithCredential(credential);
   }
 
   // SIGN OUT

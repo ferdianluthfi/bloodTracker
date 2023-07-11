@@ -24,7 +24,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-        // centerTitle: false,
+        centerTitle: true,
         title: const Text(
           "Profile",
           style: TextStyle(
@@ -32,26 +32,28 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
         leading: const BackButton(),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-          const CircleAvatar(
-            radius: 80,
-            child: Icon(
-              Icons.person,
-              size: 110,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+            const CircleAvatar(
+              radius: 80,
+              child: Icon(
+                Icons.person,
+                size: 110,
+              ),
             ),
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: editToogle,
+            SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: editToogle,
+              ),
             ),
-          ),
-          _isEditing ? EditProfileForm(cancel: editToogle,) : const ProfileDetail(),
-        ],
+            _isEditing ? EditProfileForm(cancel: editToogle,) : const ProfileDetail(),
+          ],
+        ),
       ),
     );
   }

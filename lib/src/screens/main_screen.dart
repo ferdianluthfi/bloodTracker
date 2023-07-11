@@ -36,8 +36,9 @@ class Home extends ConsumerWidget {
           if (data != null) {
             return Scaffold(
               appBar: AppBar(
-                leading: const MyAppBar(),
-                leadingWidth: 200,
+                centerTitle: true,
+                title: const MyAppBar(),
+
               ),
               endDrawer: const AppDrawer(),
               body: database == null || database == {}
