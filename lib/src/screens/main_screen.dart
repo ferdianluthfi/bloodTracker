@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:new_blood_tracker/src/Widgets/app_bar.dart';
 import 'package:new_blood_tracker/src/Widgets/loading_animation.dart';
 import 'package:new_blood_tracker/src/Widgets/record_list.dart';
+import 'package:new_blood_tracker/src/screens/onboarding_screen.dart';
 
 import '../Services/auth_provider.dart';
 import '../Services/db_provider.dart';
@@ -47,7 +48,7 @@ class Home extends ConsumerWidget {
               floatingActionButton: const AddButton(),
             );
           }
-          return LoginPage();
+          return const OnboardingPage();
         },
         loading: () => const LoadingAnimation(),
         error: (e, trace) => const LoadingAnimation());

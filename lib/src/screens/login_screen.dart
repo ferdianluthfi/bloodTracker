@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:new_blood_tracker/src/Services/auth_provider.dart';
 import 'package:email_validator/email_validator.dart';
 
-import '../Widgets/app_bar.dart';
-
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -22,12 +20,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const MyAppBar(),
-        leadingWidth: 200,
-      ),
-      body: Form(
+    return Form(
         key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -101,28 +94,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text("Or create a "),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/signup');
-                        },
-                        child: const Text(
-                          "New Account",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      )
-                    ],
-                  ),
-                )
               ],
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

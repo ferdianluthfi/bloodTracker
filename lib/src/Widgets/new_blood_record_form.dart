@@ -23,14 +23,31 @@ class _AddRecordBootomSheetState extends ConsumerState<AddRecordBootomSheet> {
   final _formKey = GlobalKey<FormState>();
   bool picked = false;
   String? dropdownValue = "No Injection";
-  List<String> insulinItems = [ "No Injection", "Novorapid", "Levemir"];
+  List<String> insulinItems = [
+    "No Injection",
+    "Actrapid",
+    "Apidra",
+    "Basaglar",
+    "Fiasp",
+    "Humulin",
+    "Lantus",
+    "Levemir",
+    "NovoLog",
+    "Novolin",
+    "Novorapid",
+    "Toujeo",
+    "Tresiba",
+    "Others"
+  ];
 
   _saveNewTrack() {
     if (_formKey.currentState!.validate()) {
       Map<String, dynamic> temp = <String, dynamic>{
         "score": int.parse(bloodSugarController.text),
         "checkTime": Timestamp.fromDate(_dateTime),
-        "type": dropdownValue=="No Injection"? "" : dropdownValue!.substring(0,3),
+        "type": dropdownValue == "No Injection"
+            ? ""
+            : dropdownValue!.substring(0, 3),
         "unitInsulin": insulinUnitController.text.isNotEmpty
             ? int.parse(insulinUnitController.text)
             : 0,

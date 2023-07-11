@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:new_blood_tracker/src/screens/onboarding_screen.dart';
 import 'package:new_blood_tracker/src/screens/profile_screen.dart';
 
 import 'firebase_options.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Home(),
         '/signup': (context) => EmailPasswordSignup(),
-        '/login': (context) => const LoginPage(),
+        '/login': (context) => const OnboardingPage(),
         '/loading': (context) => const LoadingPage(),
         '/profile': (context) => const ProfilePage(),
       },
