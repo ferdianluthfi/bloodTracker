@@ -181,7 +181,9 @@ class _AddRecordBootomSheetState extends ConsumerState<AddRecordBootomSheet> {
                               height: MediaQuery.of(context).size.width * 0.08,
                               child: TextFormField(
                                 validator: (value) {
-                                  if (dropdownValue != "No Injection") {
+                                  if (dropdownValue != "No Injection" &&
+                                      (insulinUnitController.text.isEmpty ||
+                                          value == null)) {
                                     Navigator.of(context).pop();
                                     showSnackBar(context,
                                         "Please fill your injection unit!");

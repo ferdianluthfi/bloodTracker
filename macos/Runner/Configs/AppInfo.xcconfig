@@ -8,7 +8,7 @@
 PRODUCT_NAME = new_blood_tracker
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.newBloodTracker
+PRODUCT_BUNDLE_IDENTIFIER = com.ferdianluthfi.newBloodTracker
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 com.ferdianluthfi. All rights reserved.
