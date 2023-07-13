@@ -1,16 +1,8 @@
-# new_blood_tracker
+# 🧐 Project Background
 
-A new Flutter project.
+SweetSight is a project that focuses on helping diabetes patients record their blood sugar levels at each time. Recording blood sugar levels can help diabetes patients consult with their doctors regarding the type and amount of insulin that is most suitable for them. This way, their blood sugar levels will be better controlled, reducing the risk that can arise in diabetes patients.
 
-## Getting Started
+# 💻 Tech Stack
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<li> This is a Flutter project that uses Riverpod as its state management system. <br>
+<li> To manage the data inside the app, we use Firebase to help us manage all the data we need.
